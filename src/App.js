@@ -1,26 +1,124 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardBody,
+  Col,
+  Row,
+  Container,
+  Input,
+  InputGroup,
+  InputGroupAddon
+} from 'reactstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Timer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sprint: 25,
+      sprints: 4,
+      break: 15,
+      rest: 5,
+      time: {
+        min: 25,
+        sec: 59
+      },
+    }
+  }
+
+  componentDidMount() {
+    this.countDown = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  componentWillMount() {
+    clearInterval(this.countDown);
+  }
+
+  tick() {
+    
+    let sec = this.props.time.sec,
+      min = this.props.time.min;
+    if (!min) {
+      min = this.props.sprint - 1;
+    } else {
+      
+      sec = --sec;
+      if (!sec) {
+        sec = 59;
+        min = --min;
+        if (min < 0) {
+          clearInterval(this.countDown);
+        }
+      }
+
+    }
+      
+    this.setState({
+      time: {
+        min: min,
+        sec: sec
+      },
+    });
+  }
+
+  render() {
+    return (
+      <Container fluid>
+        <Row>
+          <Col xs="12" md={{ size: 6, offset: 3 }}>
+            <Card className="mt-3">
+              <CardHeader>
+                <CardTitle>
+                  Pomodoro Timer
+                </CardTitle>
+              </CardHeader>
+              <CardBody>
+                <p>{this.state.time.min}:{this.state.time.sec}</p>
+                <Card>
+                  <CardHeader>
+                    <Row>
+                      <Col xs="9">
+                        <CardTitle>
+                          Sprint
+                        </CardTitle>
+                      </Col>
+                      <Col xs="3">
+                        <InputGroup size="sm">
+                          <InputGroupAddon addonType="prepend">Sprints</InputGroupAddon>
+                          <Input value={this.state.sprints} placeholder="Sprint" />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Row>
+                      <Col xs="6">
+                        <InputGroup size="sm">
+                          <InputGroupAddon addonType="prepend">@</InputGroupAddon>
+                          <Input value={this.state.time.min} placeholder="Minutes" />
+                        </InputGroup>
+                      </Col>
+                      <Col xs="6">
+                        <InputGroup size="sm">
+                          <InputGroupAddon addonType="prepend">@</InputGroupAddon>
+                          <Input value={this.state.time.sec} placeholder="Seconds" />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
-export default App;
+export default Timer;
