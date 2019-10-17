@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import {
   Button,
+  ButtonGroup,
   Card,
   CardHeader,
   CardTitle,
@@ -41,10 +42,10 @@ class Timer extends React.Component {
 
   tick() {
     
-    let sec = this.props.time.sec,
-      min = this.props.time.min;
+    let sec = this.state.time.sec,
+      min = this.state.time.min;
     if (!min) {
-      min = this.props.sprint - 1;
+      min = this.state.sprint - 1;
     } else {
       
       sec = --sec;
@@ -57,7 +58,7 @@ class Timer extends React.Component {
       }
 
     }
-      
+      // 
     this.setState({
       time: {
         min: min,
@@ -82,32 +83,47 @@ class Timer extends React.Component {
                 <Card>
                   <CardHeader>
                     <Row>
-                      <Col xs="9">
+                      <Col xs="12">
                         <CardTitle>
-                          Sprint
+                          Pomodoro Setup
                         </CardTitle>
-                      </Col>
-                      <Col xs="3">
-                        <InputGroup size="sm">
-                          <InputGroupAddon addonType="prepend">Sprints</InputGroupAddon>
-                          <Input value={this.state.sprints} placeholder="Sprint" />
-                        </InputGroup>
                       </Col>
                     </Row>
                   </CardHeader>
                   <CardBody>
                     <Row>
-                      <Col xs="6">
+                      <Col xs="3">
                         <InputGroup size="sm">
                           <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-                          <Input value={this.state.time.min} placeholder="Minutes" />
+                          <Input value={this.state.sprint} placeholder="Minutes" />
                         </InputGroup>
                       </Col>
-                      <Col xs="6">
+                      <Col xs="3">
                         <InputGroup size="sm">
                           <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-                          <Input value={this.state.time.sec} placeholder="Seconds" />
+                          <Input value={this.state.break} placeholder="Break" />
                         </InputGroup>
+                      </Col>
+                      <Col xs="3">
+                        <InputGroup size="sm">
+                          <InputGroupAddon addonType="prepend">@</InputGroupAddon>
+                          <Input value={this.state.break} placeholder="Break" />
+                        </InputGroup>
+                      </Col>
+                      <Col xs="3">
+                        <InputGroup size="sm">
+                          <InputGroupAddon addonType="prepend">@</InputGroupAddon>
+                          <Input value={this.state.rest} placeholder="Rest" />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs="6">
+                        <ButtonGroup>
+                          <Button outline color="success">Start</Button>
+                          <Button outline color="warning">Pause</Button>
+                          <Button outline color="danger">Stop</Button>
+                        </ButtonGroup>
                       </Col>
                     </Row>
                   </CardBody>
