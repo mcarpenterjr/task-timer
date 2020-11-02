@@ -24,9 +24,10 @@ class Timer extends React.Component {
       break: 15,
       rest: 5,
       time: {
-        min: 25,
+        min: 24,
         sec: 59
-      },
+     },
+      paused: true,
     }
   }
 
@@ -40,35 +41,38 @@ class Timer extends React.Component {
     }, 1000);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     clearInterval(this.countDown);
   }
 
   tick() {
     
     let sec = this.state.time.sec,
-      min = this.state.time.min;
-    if (!min) {
-      min = this.state.sprint - 1;
-    } else {
-      
-      sec = --sec;
-      if (!sec) {
-        sec = 59;
-        min = --min;
-        if (min < 0) {
-          clearInterval(this.countDown);
+      min = this.state.time.min,
+      running = !this.state.paused;
+    // Are we running?
+    if (running) {
+      if (!min) {
+        min = this.state.sprint - 1;
+      } else {
+        sec = --sec;
+        if (!sec) {
+          sec = 59;
+          min = --min;
+          if (min < 0) {
+            clearInterval(this.countDown);
+          }
         }
+  
       }
-
+      // Update timer
+      this.setState({
+        time: {
+          min: min,
+          sec: sec
+        },
+      });
     }
-      // 
-    this.setState({
-      time: {
-        min: min,
-        sec: sec
-      },
-    });
   }
 
   render() {
@@ -125,10 +129,16 @@ class Timer extends React.Component {
                       <Col xs="6">
                         <ButtonGroup>
                           <Button outline color="success" onClick={
-                            () => { this.thisOnClick('Clicked') }
+                            () => { this.setState({paused: false}) }
                           }>Start</Button>
-                          <Button outline color="warning">Pause</Button>
-                          <Button outline color="danger">Stop</Button>
+                          <Button outline color="warning" onClick={
+                            () => { this.setState({paused: true}) }
+                          }>Pause</Button>
+                          <Button outline color="danger" onClick={
+                            () => {
+                              console.warn('Reseting to original state.')
+                            }
+                          }>Stop</Button>
                         </ButtonGroup>
                       </Col>
                     </Row>
