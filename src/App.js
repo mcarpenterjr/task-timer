@@ -30,6 +30,10 @@ class Timer extends React.Component {
     }
   }
 
+  thisOnClick(i) {
+    console.log(i);
+  }
+
   componentDidMount() {
     this.countDown = setInterval(() => {
       this.tick();
@@ -120,7 +124,9 @@ class Timer extends React.Component {
                     <Row>
                       <Col xs="6">
                         <ButtonGroup>
-                          <Button outline color="success">Start</Button>
+                          <Button outline color="success" onClick={
+                            () => { this.thisOnClick('Clicked') }
+                          }>Start</Button>
                           <Button outline color="warning">Pause</Button>
                           <Button outline color="danger">Stop</Button>
                         </ButtonGroup>
