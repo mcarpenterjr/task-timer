@@ -31,8 +31,8 @@ class Timer extends React.Component {
     }
   }
 
-  thisOnClick(i) {
-    console.log(i);
+  onClick(i) {
+    console.log(i.target);
   }
 
   componentDidMount() {
@@ -135,9 +135,7 @@ class Timer extends React.Component {
                             () => { this.setState({paused: true}) }
                           }>Pause</Button>
                           <Button outline color="danger" onClick={
-                            () => {
-                              console.warn('Reseting to original state.')
-                            }
+                            this.onClick
                           }>Stop</Button>
                         </ButtonGroup>
                       </Col>
