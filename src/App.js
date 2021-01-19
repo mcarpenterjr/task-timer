@@ -14,9 +14,10 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 
-class Timer extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       sprint: 25,
       sprints: 4,
@@ -27,43 +28,6 @@ class Timer extends React.Component {
         sec: 59
       },
     }
-  }
-
-  componentDidMount() {
-    this.countDown = setInterval(() => {
-      this.tick();
-    }, 1000);
-  }
-
-  componentWillMount() {
-    clearInterval(this.countDown);
-  }
-
-  tick() {
-    
-    let sec = this.props.time.sec,
-      min = this.props.time.min;
-    if (!min) {
-      min = this.props.sprint - 1;
-    } else {
-      
-      sec = --sec;
-      if (!sec) {
-        sec = 59;
-        min = --min;
-        if (min < 0) {
-          clearInterval(this.countDown);
-        }
-      }
-
-    }
-      
-    this.setState({
-      time: {
-        min: min,
-        sec: sec
-      },
-    });
   }
 
   render() {
@@ -78,7 +42,7 @@ class Timer extends React.Component {
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <p>{this.state.time.min}:{this.state.time.sec}</p>
+                <Time></Time>
                 <Card>
                   <CardHeader>
                     <Row>
@@ -121,4 +85,59 @@ class Timer extends React.Component {
   }
 }
 
-export default Timer;
+class Time extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      time: {
+        min: 25,
+        sec: 59
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.countDown = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  componentWillMount() {
+    clearInterval(this.countDown);
+  }
+
+  tick() {
+    let sec = this.state.time.sec,
+      min = this.state.time.min;
+    if (!min) {
+      min = this.props.sprint - 1;
+    } else {
+      
+      sec = --sec;
+      if (!sec) {
+        sec = 59;
+        min = --min;
+        if (min < 0) {
+          clearInterval(this.countDown);
+        }
+      }
+
+    }
+      
+    this.setState({
+      time: {
+        min: min,
+        sec: sec
+      },
+    });
+  }
+
+  render() {
+    return (
+      <p>{this.state.time.min}:{this.state.time.sec}</p>
+    );
+  }
+}
+
+export default App;
