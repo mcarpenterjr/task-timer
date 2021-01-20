@@ -25,7 +25,7 @@ class App extends React.Component {
       rest: 5,
       time: {
         min: 25,
-        sec: 59
+        sec: 0
       },
     }
   }
@@ -42,7 +42,11 @@ class App extends React.Component {
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <Time></Time>
+                <Time 
+                  minutes={this.state.time.min}
+                  seconds={this.state.time.sec}
+                  sprints={this.state.sprints}
+                ></Time>
                 <Card>
                   <CardHeader>
                     <Row>
@@ -54,7 +58,7 @@ class App extends React.Component {
                       <Col xs="3">
                         <InputGroup size="sm">
                           <InputGroupAddon addonType="prepend">Sprints</InputGroupAddon>
-                          <Input value={this.state.sprints} placeholder="Sprint" />
+                          <Input defaultValue={this.state.sprints} placeholder="Sprint" />
                         </InputGroup>
                       </Col>
                     </Row>
@@ -64,13 +68,13 @@ class App extends React.Component {
                       <Col xs="6">
                         <InputGroup size="sm">
                           <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-                          <Input value={this.state.time.min} placeholder="Minutes" />
+                          <Input defaultValue={this.state.time.min} placeholder="Minutes" />
                         </InputGroup>
                       </Col>
                       <Col xs="6">
                         <InputGroup size="sm">
                           <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-                          <Input value={this.state.time.sec} placeholder="Seconds" />
+                          <Input defaultValue={this.state.time.sec} placeholder="Seconds" />
                         </InputGroup>
                       </Col>
                     </Row>
@@ -91,51 +95,105 @@ class Time extends React.Component {
 
     this.state = {
       time: {
-        min: 25,
-        sec: 59
+        min: props.minutes,
+        sec: props.seconds,
+        total: null
+      },
+      activateButton: {
+        text: 'Start'
+      },
+      activeTimer: {
+        active: false,
+        min: props.minutes,
+        sec: props.seconds,
+        total: null
       }
     }
+    this.toggleTimer = this.toggleTimer.bind(this);
   }
 
   componentDidMount() {
-    this.countDown = setInterval(() => {
-      this.tick();
-    }, 1000);
+    
   }
 
   componentWillMount() {
-    clearInterval(this.countDown);
+    
   }
 
   tick() {
-    let sec = this.state.time.sec,
-      min = this.state.time.min;
-    if (!min) {
-      min = this.props.sprint - 1;
-    } else {
-      
+    let sec = this.state.activeTimer.sec,
+      min = this.state.activeTimer.min;
+    if (sec !== 0) {
       sec = --sec;
-      if (!sec) {
-        sec = 59;
-        min = --min;
-        if (min < 0) {
-          clearInterval(this.countDown);
-        }
-      }
-
     }
-      
+    if (!sec) {
+      sec = 59;
+      min = --min;
+      if (min <= 0) {
+        clearInterval(this.countDown);
+        this.countDown = false;
+      }
+    }
     this.setState({
-      time: {
+      activeTimer: {
         min: min,
-        sec: sec
+        sec: sec,
+        total: `${min}:${sec}`
       },
     });
   }
 
+  toggleTimer() {
+    // console.log(this.state);
+    if (this.countDown) {
+      this.setState({
+        activateButton: {
+          text: 'Resume'
+        }
+      });
+      clearInterval(this.countDown);
+      this.countDown = false;
+    } else {
+      this.setState({
+        activateButton: {
+          text: 'Pause'
+        }
+      });
+      this.countDown = setInterval(() => {
+        this.tick();
+      }, 1000);
+    }
+  }
+
+  resetTimer() {
+    console.log(this.state);
+    if (this.state.timerActive) {
+      this.setState({
+        activateButton: {
+          text: 'Start'
+        },
+        timerActive: false
+      });
+    } 
+  }
+
   render() {
     return (
-      <p>{this.state.time.min}:{this.state.time.sec}</p>
+      <div>
+        <InputGroup>
+          <InputGroupAddon addonType="prepend">
+            <Button
+              color="primary"
+              onClick={this.toggleTimer}
+            >{this.state.activateButton.text}</Button>
+          </InputGroupAddon>
+          <Input defaultValue={this.state.activeTimer.total} readOnly={true} />
+          <InputGroupAddon addonType="append">
+            <Button color="warning">Skip</Button>
+            <Button color="danger">Reset</Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
     );
   }
 }
