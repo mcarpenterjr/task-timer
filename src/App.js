@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import Timer from './Components/Timer/';
 import React from 'react';
 import {
   Button,
@@ -48,10 +49,10 @@ class App extends React.Component {
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <Time 
-                  sprint={this.state.sprint}
+                <Timer
                   break={this.state.break}
-                ></Time>
+                  sprint={this.state.sprint}
+                ></Timer>
                 <Card>
                   <CardHeader>
                     <Row>
@@ -145,106 +146,6 @@ class App extends React.Component {
           </Col>
         </Row>
       </Container>
-    );
-  }
-}
-
-class Time extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sprint: props.sprint,
-      break: props.break,
-      activateButton: {
-        text: 'Start'
-      },
-      activeTimer: {
-        active: false,
-        min: null,
-        sec: null,
-        total: null
-      }
-    }
-    this.toggleTimer = this.toggleTimer.bind(this);
-  }
-
-  tick() {
-    let sec = this.state.activeTimer.sec,
-      min = this.state.activeTimer.min;
-    if (sec !== 0) {
-      sec = --sec;
-    }
-    if (!sec) {
-      sec = 59;
-      min = --min;
-      if (min <= 0) {
-        clearInterval(this.countDown);
-        this.countDown = false;
-      }
-    }
-    this.setState({
-      activeTimer: {
-        min: min,
-        sec: sec,
-        total: `${min}:${sec}`
-      },
-    });
-  }
-
-  toggleTimer() {
-    // console.log(this.state);
-    if (this.countDown) {
-      this.setState({
-        activateButton: {
-          text: 'Resume'
-        }
-      });
-      clearInterval(this.countDown);
-      this.countDown = false;
-    } else {
-      this.setState({
-        activateButton: {
-          text: 'Pause'
-        }
-      });
-      this.countDown = setInterval(() => {
-        this.tick();
-      }, 1000);
-    }
-  }
-
-  resetTimer() {
-    console.log(this.state);
-    if (this.state.timerActive) {
-      this.setState({
-        activateButton: {
-          text: 'Start'
-        },
-        timerActive: false
-      });
-    } 
-  }
-
-  render() {
-    return (
-      <Card>
-        <CardBody>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <Button
-                color="primary"
-                onClick={this.toggleTimer}
-              >{this.state.activateButton.text}</Button>
-            </InputGroupAddon>
-            <Input defaultValue={this.state.activeTimer.total} readOnly={true} />
-            <InputGroupAddon addonType="append">
-              <Button color="warning">Skip</Button>
-              <Button color="danger">Reset</Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </CardBody>
-      </Card>
     );
   }
 }
