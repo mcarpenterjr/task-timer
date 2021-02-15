@@ -3,12 +3,7 @@ import React from 'react';
 import {
   Button,
   Card,
-  CardHeader,
-  CardTitle,
   CardBody,
-  Col,
-  Row,
-  Container,
   Input,
   InputGroup,
   InputGroupAddon
@@ -36,28 +31,31 @@ class Timer extends React.Component {
   }
 
   tick() {
-    let sec, min;
-    if (!this.state.activeTimer.min
-      && !this.state.activeTimer.sec
-    ) {
-      
+    if (!this.state.activeTimer.min) {
+      this.state.activeTimer.min = this.state.sprint.duration.min;
     }
-    if (sec !== 0) {
-      sec = --sec;
+    if (!this.state.activeTimer.sec) {
+      this.state.activeTimer.sec = this.state.sprint.duration.sec;
     }
-    if (!sec) {
-      sec = 59;
-      min = --min;
-      if (min <= 0) {
-        clearInterval(this.countDown);
-        this.countDown = false;
+    if (!this.state.activeTimer.total) {
+      this.state.activeTimer.total = this.state.sprint.total;
+    }
+
+    if (this.state.activeTimer.sec !== 0) {
+      this.state.activeTimer.sec = --this.state.activeTimer.sec;
+    }
+    if (!this.state.activeTimer.sec) {
+      this.state.activeTimer.sec = 59;
+      this.state.activeTimer.min = --this.state.activeTimer.min;
+      if (this.state.activeTimer.min <= 0) {
+        this.state.activeTimer.total = --this.state.sprint.total
       }
     }
     this.setState({
       activeTimer: {
-        min: min,
-        sec: sec,
-        total: `${min}:${sec}`
+        min: this.state.activeTimer.min,
+        sec: this.state.activeTimer.sec,
+        total: `${this.state.activeTimer.min}:${this.state.activeTimer.sec}`
       },
     });
   }

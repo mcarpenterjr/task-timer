@@ -1,5 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import Timer from './Components/Timer/';
+import Sprint from './Components/Sprint/';
+import Break from './Components/Break/';
 import React from 'react';
 import {
   Button,
@@ -38,6 +40,8 @@ class App extends React.Component {
   }
 
   render() {
+    const b = this.state.break,
+      s = this.state.sprint;
     return (
       <Container fluid>
         <Row>
@@ -50,97 +54,11 @@ class App extends React.Component {
               </CardHeader>
               <CardBody>
                 <Timer
-                  break={this.state.break}
-                  sprint={this.state.sprint}
+                  break={b}
+                  sprint={s}
                 ></Timer>
-                <Card>
-                  <CardHeader>
-                    <Row>
-                      <Col xs="9">
-                        <CardTitle>
-                          Sprint
-                        </CardTitle>
-                      </Col>
-                      <Col xs="3">
-                        <InputGroup size="sm">
-                          <InputGroupAddon
-                            addonType="prepend"
-                          >Sprints</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.sprint.total}
-                            placeholder="Sprint"
-                          />
-                        </InputGroup>
-                      </Col>
-                    </Row>
-                  </CardHeader>
-                  <CardBody>
-                    <Row>
-                      <Col xs="6">
-                        <InputGroup size="sm">
-                          <InputGroupAddon addonType="prepend">Minutes</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.sprint.duration.min}
-                            placeholder="Minutes"
-                          />
-                        </InputGroup>
-                      </Col>
-                      <Col xs="6">
-                        <InputGroup size="sm">
-                          <InputGroupAddon addonType="prepend">Seconds</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.sprint.duration.sec}
-                            placeholder="Seconds"
-                          />
-                        </InputGroup>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <Row>
-                      <Col xs="9">
-                        <CardTitle>
-                          Break
-                        </CardTitle>
-                      </Col>
-                      <Col xs="3">
-                        <InputGroup size="sm">
-                          <InputGroupAddon
-                            addonType="prepend"
-                          >Breaks</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.break.total}
-                            placeholder="Breaks"
-                          />
-                        </InputGroup>
-                      </Col>
-                    </Row>
-                  </CardHeader>
-                  <CardBody>
-                    <Row>
-                      <Col xs="6">
-                        <InputGroup size="sm">
-                          <InputGroupAddon addonType="prepend">Minutes</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.break.duration.min}
-                            placeholder="Minutes"
-                          />
-                        </InputGroup>
-                      </Col>
-                      <Col xs="6">
-                        <InputGroup size="sm">
-                          <InputGroupAddon addonType="prepend">Seconds</InputGroupAddon>
-                          <Input
-                            defaultValue={this.state.break.duration.sec}
-                            placeholder="Seconds"
-                          />
-                        </InputGroup>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                </Card>
+                <Break></Break>
+                <Sprint></Sprint>
               </CardBody>
             </Card>
           </Col>
