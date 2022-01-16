@@ -17,13 +17,6 @@ class Break extends React.Component {
     super(props);
 
     this.state = {
-      sprint: {
-        total: 4,
-        duration: {
-          min: 25,
-          sec: 0
-        }
-      },
       break: {
         total: 4,
         duration: {
@@ -39,12 +32,12 @@ class Break extends React.Component {
       <Card>
         <CardHeader>
           <Row>
-            <Col xs="9">
+            <Col xs="6">
               <CardTitle>
                 Break
               </CardTitle>
             </Col>
-            <Col xs="3">
+            <Col xs="6">
               <InputGroup size="sm">
                 <InputGroupAddon
                   addonType="prepend"

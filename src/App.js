@@ -4,17 +4,13 @@ import Sprint from './Components/Sprint/';
 import Break from './Components/Break/';
 import React from 'react';
 import {
-  Button,
   Card,
   CardHeader,
   CardTitle,
   CardBody,
   Col,
   Row,
-  Container,
-  Input,
-  InputGroup,
-  InputGroupAddon
+  Container
 } from 'reactstrap';
 
 class App extends React.Component {
@@ -45,7 +41,11 @@ class App extends React.Component {
     return (
       <Container fluid>
         <Row>
-          <Col xs="12" md={{ size: 6, offset: 3 }}>
+          <Col 
+            xs="12"
+            sm={{ size: 10, offset: 1 }}
+            md={{ size: 8, offset: 2 }}
+          >
             <Card className="mt-3">
               <CardHeader>
                 <CardTitle>

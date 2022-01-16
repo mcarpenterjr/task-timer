@@ -27,19 +27,17 @@ class Sprint extends React.Component {
     }
   }
 
-
-
   render() {
     return (
       <Card>
         <CardHeader>
           <Row>
-            <Col xs="9">
+            <Col xs="6">
               <CardTitle>
                 Sprint
               </CardTitle>
             </Col>
-            <Col xs="3">
+            <Col xs="6">
               <InputGroup size="sm">
                 <InputGroupAddon
                   addonType="prepend"
