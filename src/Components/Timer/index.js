@@ -9,13 +9,39 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      time: '00:00:00'
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.time, prevProps, prevState);
+    if (this.props.time != prevProps.time) {
+      this.setState({ time: this.props.time });
+    }
+  }
+
+  render() {
+    return (
+      <Input
+        value={this.state.time}
+        readOnly={true} />
+    );
+  }
+}
+
 class Timer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       sprint: props.sprint,
-      break: props.break,
+      short_break: props.short_break,
+      long_break: props.long_break,
       activateButton: {
         text: 'Start'
       },
@@ -41,7 +67,6 @@ class Timer extends React.Component {
       this.setState({
         activeTimer: {
           active: true,
-          type: 'sprint',
           min: --min,
           sec: --sec,
           total: `${min}:${sec}`
@@ -87,6 +112,7 @@ class Timer extends React.Component {
   }
 
   toggleTimer() {
+    console.log(this.state);
     if (this.countDown) {
       this.setState({
         activateButton: {
@@ -134,9 +160,7 @@ class Timer extends React.Component {
                 onClick={this.toggleTimer}
               >{this.state.activateButton.text}</Button>
             </InputGroupAddon>
-            <Input
-              defaultValue={this.state.activeTimer.total}
-              readOnly={true} />
+            <Clock time={this.state.activeTimer.total || false}></Clock>
             <InputGroupAddon addonType="append">
               <Button color="warning">Skip</Button>
               <Button

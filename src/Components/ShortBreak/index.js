@@ -12,11 +12,11 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 
-class Sprint extends React.Component {
+class ShortBreak extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = this.props.sprint;
+    this.state = this.props.short_break;
   }
 
   render() {
@@ -26,19 +26,8 @@ class Sprint extends React.Component {
           <Row>
             <Col xs="6">
               <CardTitle>
-                Sprint
+                Short Breaks
               </CardTitle>
-            </Col>
-            <Col xs="6">
-              <InputGroup size="sm">
-                <InputGroupAddon
-                  addonType="prepend"
-                >Total Sprints</InputGroupAddon>
-                <Input
-                  defaultValue={this.state.total}
-                  placeholder="Sprint"
-                />
-              </InputGroup>
             </Col>
           </Row>
         </CardHeader>
@@ -69,4 +58,4 @@ class Sprint extends React.Component {
   }
 }
 
-export default Sprint;
+export default ShortBreak;

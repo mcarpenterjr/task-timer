@@ -12,41 +12,22 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 
-class Break extends React.Component {
+class LongBreak extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      break: {
-        total: 4,
-        duration: {
-          min: 5,
-          sec: 0
-        }
-      }
-    }
+    this.state = this.props.long_break;
   }
 
   render() {
     return (
       <Card>
-        <CardHeader>
+        <CardHeader className={this.state.isActive ? 'text-white bg-success' : ''}>
           <Row>
             <Col xs="6">
               <CardTitle>
-                Break
+                Long Breaks
               </CardTitle>
-            </Col>
-            <Col xs="6">
-              <InputGroup size="sm">
-                <InputGroupAddon
-                  addonType="prepend"
-                >Breaks</InputGroupAddon>
-                <Input
-                  defaultValue={this.state.break.total}
-                  placeholder="Breaks"
-                />
-              </InputGroup>
             </Col>
           </Row>
         </CardHeader>
@@ -56,7 +37,7 @@ class Break extends React.Component {
               <InputGroup size="sm">
                 <InputGroupAddon addonType="prepend">Minutes</InputGroupAddon>
                 <Input
-                  defaultValue={this.state.break.duration.min}
+                  defaultValue={this.state.duration.min}
                   placeholder="Minutes"
                 />
               </InputGroup>
@@ -65,7 +46,7 @@ class Break extends React.Component {
               <InputGroup size="sm">
                 <InputGroupAddon addonType="prepend">Seconds</InputGroupAddon>
                 <Input
-                  defaultValue={this.state.break.duration.sec}
+                  defaultValue={this.state.duration.sec}
                   placeholder="Seconds"
                 />
               </InputGroup>
@@ -77,4 +58,4 @@ class Break extends React.Component {
   }
 }
 
-export default Break;
+export default LongBreak;
